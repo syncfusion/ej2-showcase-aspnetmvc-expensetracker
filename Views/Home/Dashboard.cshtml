@@ -1,0 +1,231 @@
+﻿@using Syncfusion.EJ2
+@{
+    ViewBag.Title = "Dashboard";
+}
+<style>
+    #total-expense {
+        display: block !important;
+    }
+</style>
+<div class="control-section">
+    <div class="row" style="margin-bottom: 16px;">
+        <div class="page-title">
+            <div style="display: inline-block">Dashboard</div>
+        </div>
+        <div class="col-md-3 col-xs-12 col-xl-6 col-lg-3 daterange overview-range-picker">
+            @Html.EJS().DateRangePicker("daterangepicker").Readonly(false).ShowClearButton(false).Change("onDateRangeChange").EndDate(new System.DateTime(2017, 11, 30, 23, 59, 59)).StartDate(new System.DateTime(2017, 06, 1, 00, 00, 00)).Render()
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 card-container">
+                <div class="e-card card">
+                    <div class="e-card-content">
+                        <h3 class="card-value" id="tolincome">$0</h3>
+                        <span class="card-text">Income</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 card-container">
+                <div class="e-card card">
+                    <div class="e-card-content">
+                        <h3 class="card-value" id='tolexpense'>$0</h3>
+                        <span class="card-text">Expenses</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 card-container">
+                <div class="e-card card">
+                    <div class="e-card-content">
+                        <h3 class="card-value" id="tolbalance">$0</h3>
+                        <span class="card-text">Balance</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 card-container">
+                <div class="e-card card">
+                    <div class="e-card-content">
+                        <h3 class="card-value" id="toltransaction">0</h3>
+                        <span class="card-text">Transactions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='pie-chart-container'>
+        <div class="row pie-chart" id='totalExpense'>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="pane col-xs-12 col-sm-12 col-md-12 pie-container">
+                    <div class="pieChartHeader">
+                        <p class="chart-title">Total Expenses</p>
+                        <p id="rangeDate" class="chart-value"></p>
+                    </div>
+                    <div class="row">
+                        <div class="pieChart">
+                            @Html.EJS().AccumulationChart("total-expense").EnableSmartLabels(true).Width("100%").Height("350px").Series(series =>
+                                                     {
+                                                         series.DataSource(null).XName("text").YName("y").Radius("83%").StartAngle(0).EndAngle(360).InnerRadius("50%").Palettes(@ViewBag.palettes).Animation(ViewBag.animation).DataLabel(ViewBag.dataLabel).Add();
+                                                     }).TextRender("textRender").LegendSettings(legent =>
+                                                     {
+                                                         legent.Visible(true);
+                                                     }).AnimationComplete("animationComplete").Render()
+                        </div>
+                        <div class="chartLegend" style="margin: 0 auto;">
+                            <div style="position: relative">
+                                <div class="legend-waitingpopup" id="grid-popup" style="display:none">
+                                    <span class="legend-image">
+                                        <svg class="e-spin-material" viewBox="0 0 30 30">
+                                            <path class="e-path-circle" stroke-width="3" d="M15,1.5A13.5,13.5 0 1 1 1.5,15" stroke-dasharray="63.61725123519331" stroke-dashoffset="190.0035236891107"
+                                                  transform="rotate(-90 15 15)"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                            @Html.EJS().Grid("legend-grid").Width("100%").RowTemplate("#rowtemplate").Columns(columns =>
+                     {
+                         columns.Field("color").Width("10%").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Add();
+                         columns.Field("text").Width("50%").Add();
+                         columns.Field("y").Width("20%").Add();
+                         columns.Field("x").Width("20%").Add();
+                     }).Load("load").DataBound("dataBound").Render()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div class="line-chart-area">
+                <div class="col-xs-12 col-sm-6 col-md-6 chart-container">
+                    <div class="chart-padding">
+                        <div class="line-chart" style="width:100%; max-width: 494px;">
+                            @Html.EJS().Chart("balance").PrimaryXAxis(pxAxis =>
+                         {
+                             pxAxis.ValueType(Syncfusion.EJ2.Charts.ValueType.DateTime).LabelFormat("MMM").MajorGridLines(ViewBag.mgLine).IntervalType(Syncfusion.EJ2.Charts.IntervalType.Months).Add();
+                         }).PrimaryYAxis(pyAxis =>
+                         {
+                             pyAxis.Maximum(1800).Interval(300).LabelFormat("c0").Add();
+                         }).UseGroupingSeparator(true).ChartArea(chartarea =>
+                         chartarea.Border(ViewBag.chartarea)
+                         ).Annotations(annotion =>
+                         {
+                             annotion.Content(ViewBag.content).X("75px").Y("9%").CoordinateUnits(Syncfusion.EJ2.Charts.Units.Pixel).Region(Syncfusion.EJ2.Charts.Regions.Chart).Add();
+                         }).Series(series =>
+                         {
+                             series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Area).XName("DateTime").Width(2).Marker(ViewBag.marker).YName("Amount").Name("Amount").Fill("rgba(4, 112, 216, 0.3)").Border(ViewBag.border).Add();
+                         }).Tooltip(tooltip =>
+                         {
+                             tooltip.Fill("#707070").Enable(true).Shared(true).Format("${series.name} : ${point.y}").Header("Month - ${point.x} ");
+                         }).TitleStyle(titlestyle =>
+                         {
+                             titlestyle.TextAlignment(Syncfusion.EJ2.Charts.Alignment.Near).FontWeight("500").Size("16").Color("#000");
+                         }).LegendSettings(legent =>
+                         {
+                             legent.Visible(true);
+                         }).Margin(ViewBag.margin).Render()
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column-chart-area">
+                <div class="col-xs-12 col-sm-6 col-md-6 chart-container">
+                    <div class="chart-padding">
+                        @Html.EJS().Chart("account-balance").PrimaryXAxis(pxAxis =>
+                 {
+                     pxAxis.ValueType(Syncfusion.EJ2.Charts.ValueType.DateTime).LabelFormat("MMM").EdgeLabelPlacement(Syncfusion.EJ2.Charts.EdgeLabelPlacement.Shift).IntervalType(Syncfusion.EJ2.Charts.IntervalType.Months).Add();
+                 }).PrimaryYAxis(pyAxis =>
+                 {
+                     pyAxis.Maximum(9000).Minimum(3000).LabelFormat("c0").Add();
+                 }).UseGroupingSeparator(true).Annotations(annotion =>
+                 {
+                     annotion.Content(ViewBag.accBalancecontent).X("75px").Y("9%").CoordinateUnits(Syncfusion.EJ2.Charts.Units.Pixel).Region(Syncfusion.EJ2.Charts.Regions.Chart).Add();
+                 }).Series(series =>
+                 {
+                     series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Column).XName("DateTime").Width(2).Marker(ViewBag.marker).LegendShape(Syncfusion.EJ2.Charts.LegendShape.Circle).Marker(ViewBag.accBalanceMarker).Animation(ViewBag.accBalanceAnimation).YName("Amount").Name("Income").Fill("#A16EE5").Border(ViewBag.accBalanceborder).Add();
+                     series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Column).XName("DateTime").Width(2).Marker(ViewBag.marker).LegendShape(Syncfusion.EJ2.Charts.LegendShape.Circle).Marker(ViewBag.accBalanceMarker).Animation(ViewBag.accBalanceAnimation).YName("Amount").Name("Expense").Fill("#4472C4").Add();
+
+                 }).Tooltip(tooltip =>
+                 {
+                     tooltip.Fill("#707070").Enable(true).Shared(true).Format("${series.name} : ${point.y}").Header("Month - ${point.x} ");
+                 }).Margin(ViewBag.margin).Render()
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row recent-expense-grid">
+            <div class="col-xs-6 col-sm-6 col-md-12" style="width:100%">
+                @Html.EJS().Grid("recentexpense-grid").AllowSorting(true).EnableHover(false).AllowPaging(false).PageSettings(psettings =>
+                               {
+                                   psettings.PageCount(4).PageSize(14);
+                               }).Width("100%").Columns(columns =>
+                               {
+                                   columns.Field("DateTime").HeaderText("Date").Width("120").Format("yMd").HideAtMedia("(min-width: 600px)").Template("#dateTemplate").Add();
+                                   columns.Field("Category").HeaderText("Category").Template("#template").Width("170").Add();
+                                   columns.Field("PaymentMode").HeaderText("Payment Mode").Width("160").HideAtMedia("(min-width: 600px)").Add();
+                                   columns.Field("Description").HeaderText("Description").HideAtMedia("min-width: 1050px)").Add();
+                                   columns.Field("Amount").HeaderText("Amount").Width("120").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Right).Template("#amtTemplate").Add();
+                               }).Toolbar(ViewBag.gridToolbar).Render()
+            </div>
+        </div>
+    </div>
+    <script id="rowtemplate" type="text/x-template">
+        <tr style="height: 30px;">
+            <td>
+                <div style="width: 16px; height: 16px; margin-left: 1px; border-radius: 16px; background:${color}"></div>
+            </td>
+            <td> ${text} </td>
+            <td> ${getCurrencyVal(data.y)} </td>
+            <td style="text-align:right;"> ${x} </td>
+        </tr>
+    </script>
+    <script id="template" type="text/x-template">
+        <div class="normalRes">
+            <div class="category-icon ${Category}"></div>
+            <div class='category-text'>${Category}</div>
+        </div>
+        <div class="mediumRes">
+            <div>
+                <div class="category-icon ${Category}"></div>
+            </div>
+            <div>
+                <div> ${Category} </div>
+                <div class="description-section"> ${Description} </div>
+            </div>
+        </div>
+        <div class="smallRes">
+            <div class='sm-category sm-icon'>
+                <div class="category-icon ${Category}"></div>
+            </div>
+            <div class='sm-category category-content'>
+                <div> ${Category} </div>
+                <div class="description-section"> ${Description} </div>
+                <div> ${PaymentMode} </div>
+            </div>
+        </div>
+    </script>
+    <script id="amtTemplate" type="text/x-template">
+        <div class="normalRes">
+            <div class='amt-payment ${TransactionType}'>
+                <span>$</span> <span>${Amount}</span>
+            </div>
+        </div>
+        <div class="mediumRes">
+            <div class='amt-payment ${TransactionType}'>
+                <span>$</span> <span>${Amount}</span>
+            </div>
+            <div>${getDate(data.DateTime)}</div>
+        </div>
+        <div class="smallRes">
+            <div class='amt-payment ${TransactionType}'>
+                <span>$</span> <span>${Amount}</span>
+            </div>
+            <div>${getDate(data.DateTime)}</div>
+        </div>
+    </script>
+    <script id="dateTemplate" type="text/x-template">
+        ${getDate(data.DateTime)}
+    </script>
+</div>
+@Html.EJS().ScriptManager()
+
