@@ -13,7 +13,7 @@
             <div style="display: inline-block">Dashboard</div>
         </div>
         <div class="col-md-3 col-xs-12 col-xl-6 col-lg-3 daterange overview-range-picker">
-            @Html.EJS().DateRangePicker("daterangepicker").Readonly(false).ShowClearButton(false).Change("onDateRangeChange").EndDate(new System.DateTime(2017, 11, 30, 23, 59, 59)).StartDate(new System.DateTime(2017, 06, 1, 00, 00, 00)).Render()
+            @Html.EJS().DateRangePicker("daterangepicker").Format("MM/dd/yyyy").AllowEdit(false).ShowClearButton(false).Change("onDateRangeChange").EndDate(new System.DateTime(2017, 12, 1, 00, 00, 00)).StartDate(new System.DateTime(2017, 06, 1, 00, 00, 00)).Render()
         </div>
     </div>
     <div>
@@ -63,12 +63,18 @@
                     <div class="row">
                         <div class="pieChart">
                             @Html.EJS().AccumulationChart("total-expense").EnableSmartLabels(true).Width("100%").Height("350px").Series(series =>
-                                                     {
-                                                         series.DataSource(null).XName("text").YName("y").Radius("83%").StartAngle(0).EndAngle(360).InnerRadius("50%").Palettes(@ViewBag.palettes).Animation(ViewBag.animation).DataLabel(ViewBag.dataLabel).Add();
-                                                     }).TextRender("textRender").LegendSettings(legent =>
-                                                     {
-                                                         legent.Visible(true);
-                                                     }).AnimationComplete("animationComplete").Render()
+                            {
+                                series.XName("text").YName("y").Radius("83%").StartAngle(0).EndAngle(360).InnerRadius("50%")
+                                .DataLabel(
+                                    s1 => s1.Name("x").Visible(true).Position(Syncfusion.EJ2.Charts.AccumulationLabelPosition.Outside).ConnectorStyle(c1 => c1.Length("10%")).Font(f1 => f1.Color("Black").Size("14px").FontFamily("Roboto"))
+                                )
+                                .Animation(ViewBag.animation)
+                                .Palettes(@ViewBag.palettes)
+                                .Add();
+                            }).TextRender("textRender").LegendSettings(legent =>
+                            {
+                                legent.Visible(true);
+                            }).AnimationComplete("animationComplete").Render()
                         </div>
                         <div class="chartLegend" style="margin: 0 auto;">
                             <div style="position: relative">
@@ -101,19 +107,23 @@
                     <div class="chart-padding">
                         <div class="line-chart" style="width:100%; max-width: 494px;">
                             @Html.EJS().Chart("balance").PrimaryXAxis(pxAxis =>
-                         {
-                             pxAxis.ValueType(Syncfusion.EJ2.Charts.ValueType.DateTime).LabelFormat("MMM").MajorGridLines(ViewBag.mgLine).IntervalType(Syncfusion.EJ2.Charts.IntervalType.Months).Add();
-                         }).PrimaryYAxis(pyAxis =>
-                         {
-                             pyAxis.Maximum(1800).Interval(300).LabelFormat("c0").Add();
-                         }).UseGroupingSeparator(true).ChartArea(chartarea =>
-                         chartarea.Border(ViewBag.chartarea)
+                       {
+                           pxAxis.ValueType(Syncfusion.EJ2.Charts.ValueType.DateTime).LabelFormat("MMM")
+                           .MajorGridLines(mgl => mgl.Width(0))
+                           .IntervalType(Syncfusion.EJ2.Charts.IntervalType.Months).Add();
+                       }).PrimaryYAxis(pyAxis =>
+                       {
+                           pyAxis.Maximum(1800).Interval(300).LabelFormat("c0").Add();
+                       }).UseGroupingSeparator(true).ChartArea(chartarea =>
+                       chartarea.Border(ViewBag.chartarea)
                          ).Annotations(annotion =>
                          {
                              annotion.Content(ViewBag.content).X("75px").Y("9%").CoordinateUnits(Syncfusion.EJ2.Charts.Units.Pixel).Region(Syncfusion.EJ2.Charts.Regions.Chart).Add();
                          }).Series(series =>
                          {
-                             series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Area).XName("DateTime").Width(2).Marker(ViewBag.marker).YName("Amount").Name("Amount").Fill("rgba(4, 112, 216, 0.3)").Border(ViewBag.border).Add();
+                             series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Area).XName("DateTime").Width(2)
+                             .Marker(mr => mr.Visible(true).Width(10).Height(10).Fill("white").Border(br => br.Width(2).Color("#0470D8")))
+                             .YName("Amount").Name("Amount").Fill("rgba(4, 112, 216, 0.3)").Border(ViewBag.border).Add();
                          }).Tooltip(tooltip =>
                          {
                              tooltip.Fill("#707070").Enable(true).Shared(true).Format("${series.name} : ${point.y}").Header("Month - ${point.x} ");
@@ -132,23 +142,33 @@
                 <div class="col-xs-12 col-sm-6 col-md-6 chart-container">
                     <div class="chart-padding">
                         @Html.EJS().Chart("account-balance").PrimaryXAxis(pxAxis =>
-                 {
-                     pxAxis.ValueType(Syncfusion.EJ2.Charts.ValueType.DateTime).LabelFormat("MMM").EdgeLabelPlacement(Syncfusion.EJ2.Charts.EdgeLabelPlacement.Shift).IntervalType(Syncfusion.EJ2.Charts.IntervalType.Months).Add();
-                 }).PrimaryYAxis(pyAxis =>
-                 {
-                     pyAxis.Maximum(9000).Minimum(3000).LabelFormat("c0").Add();
-                 }).UseGroupingSeparator(true).Annotations(annotion =>
-                 {
-                     annotion.Content(ViewBag.accBalancecontent).X("75px").Y("9%").CoordinateUnits(Syncfusion.EJ2.Charts.Units.Pixel).Region(Syncfusion.EJ2.Charts.Regions.Chart).Add();
-                 }).Series(series =>
-                 {
-                     series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Column).XName("DateTime").Width(2).Marker(ViewBag.marker).LegendShape(Syncfusion.EJ2.Charts.LegendShape.Circle).Marker(ViewBag.accBalanceMarker).Animation(ViewBag.accBalanceAnimation).YName("Amount").Name("Income").Fill("#A16EE5").Border(ViewBag.accBalanceborder).Add();
-                     series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Column).XName("DateTime").Width(2).Marker(ViewBag.marker).LegendShape(Syncfusion.EJ2.Charts.LegendShape.Circle).Marker(ViewBag.accBalanceMarker).Animation(ViewBag.accBalanceAnimation).YName("Amount").Name("Expense").Fill("#4472C4").Add();
+                   {
+                       pxAxis.ValueType(Syncfusion.EJ2.Charts.ValueType.DateTime).LabelFormat("MMM").EdgeLabelPlacement(Syncfusion.EJ2.Charts.EdgeLabelPlacement.Shift).IntervalType(Syncfusion.EJ2.Charts.IntervalType.Months).Add();
+                   }).PrimaryYAxis(pyAxis =>
+                   {
+                       pyAxis.Maximum(9000).Minimum(3000).LabelFormat("c0").Add();
+                   }).UseGroupingSeparator(true).Annotations(annotion =>
+                   {
+                       annotion.Content(ViewBag.accBalancecontent).X("75px").Y("9%").CoordinateUnits(Syncfusion.EJ2.Charts.Units.Pixel).Region(Syncfusion.EJ2.Charts.Regions.Chart).Add();
+                   }).Series(series =>
+                   {
+                       series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Column).XName("DateTime").Width(2)
+                       .Marker(mr => mr.Visible(true).Width(10).Height(10).Fill("white").Border(br => br.Width(2).Color("#0470D8")))
+                       .LegendShape(Syncfusion.EJ2.Charts.LegendShape.Circle)
+                       .Marker(amr => amr.Visible(true).Width(10).Height(10))
+                       .Animation(an => an.Enable(false))
+                       .YName("Amount").Name("Income").Fill("#A16EE5").Border(ViewBag.accBalanceborder).Add();
+                       series.Type(Syncfusion.EJ2.Charts.ChartSeriesType.Column).XName("DateTime").Width(2)
+                       .Marker(mr => mr.Visible(true).Width(10).Height(10).Fill("white").Border(br => br.Width(2).Color("#0470D8")))
+                       .LegendShape(Syncfusion.EJ2.Charts.LegendShape.Circle)
+                       .Marker(amr => amr.Visible(true).Width(10).Height(10))
+                       .Animation(an => an.Enable(false))
+                       .YName("Amount").Name("Expense").Fill("#4472C4").Add();
 
-                 }).Tooltip(tooltip =>
-                 {
-                     tooltip.Fill("#707070").Enable(true).Shared(true).Format("${series.name} : ${point.y}").Header("Month - ${point.x} ");
-                 }).Margin(ViewBag.margin).Render()
+                   }).Tooltip(tooltip =>
+                   {
+                       tooltip.Fill("#707070").Enable(true).Shared(true).Format("${series.name} : ${point.y}").Header("Month - ${point.x} ");
+                   }).Margin(ViewBag.margin).Render()
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-                @Html.EJS().Grid("grid").Width("100%").Height("100%").AllowSelection(true).RowSelected("onGridCheckBoxChange").RowDeselected("onGridCheckBoxChange").Created("onGridRender").EditSettings(editSettings =>
+                @Html.EJS().Grid("grid").Width("100%").Height("100%").AllowSelection(true).RowSelected("onGridCheckBoxChange").RowDeselected("onGridCheckBoxChange").DataBound("onGridRender").EditSettings(editSettings =>
                      {
                          editSettings.AllowEditing(true);
                      }).AllowPaging(true).PageSettings(pagesettings =>
@@ -55,7 +55,7 @@
                 <div class="expense-filter-container">
                     <label class="label-font">Select a range</label>
                     <div class='filter-item'>
-                        @Html.EJS().DateRangePicker("daterange").CssClass("DateTime").Format("MM/dd/yyyy").ShowClearButton(false).Change("dateRangeChanged").Readonly(false).EndDate(new System.DateTime(2017, 11, 30, 23, 59, 59)).StartDate(new System.DateTime(2017, 06, 1, 00, 01, 01)).Render()
+                        @Html.EJS().DateRangePicker("daterange").CssClass("DateTime").Format("MM/dd/yyyy").ShowClearButton(false).Change("dateRangeChanged").AllowEdit(false).EndDate(new System.DateTime(2017, 11, 30, 23, 59, 59)).StartDate(new System.DateTime(2017, 06, 1, 00, 01, 01)).Render()
                     </div>
                     <label class="label-font">Category</label>
                     <div class="treeview filter-item">

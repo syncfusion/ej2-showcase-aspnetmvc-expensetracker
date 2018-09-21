@@ -48,8 +48,11 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.EJ2, Version=13.3500.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Syncfusion.EJ2.MVC5.1.0.4\lib\net45\Syncfusion.EJ2.dll</HintPath>
+    <Reference Include="Syncfusion.EJ2, Version=16.3500.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.EJ2.MVC5.16.3.0.21\lib\net45\Syncfusion.EJ2.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing, Version=16.3450.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.Licensing.16.3.0.21\lib\net45\Syncfusion.Licensing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -141,6 +144,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\common.data.js" />
+    <Content Include="Scripts\ej2.min.js" />
     <Content Include="Scripts\expense.js" />
     <Content Include="Scripts\financial-data.js" />
     <Content Include="Scripts\fuse.min.js" />
