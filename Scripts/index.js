@@ -139,7 +139,7 @@ function hash(args) {
 
 function routeDefault() {
     crossroads.addRoute('', function () {
-        window.location.href = '#/dashboard';
+        window.location.href = window.location.href.lastIndexOf("/") === window.location.href.length - '/'.length ? '#/dashboard' : window.location.href + "/#/dashboard";
     });
 }
 
