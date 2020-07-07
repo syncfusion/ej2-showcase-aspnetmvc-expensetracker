@@ -21,7 +21,9 @@ namespace EJ2MVCSampleBrowser.Controllers
         {
             ViewBag.startDate = new DateTime(2017, 05, 31);
             ViewBag.endDate = new DateTime(2017, 11, 30);
-            ViewBag.animation = new { enable = false };
+            AccumulationChartAnimation animation = new AccumulationChartAnimation();
+            animation.Enable = false;
+            ViewBag.animation = animation;
             ViewBag.palettes = new string[] { "#61EFCD", "#CDDE1F", "#FEC200", "#CA765A", "#2485FA", "#F57D7D", "#C152D2",
                     "#8854D9", "#3D4EB8", "#00BCD7" };
             ViewBag.legentSettings = new
