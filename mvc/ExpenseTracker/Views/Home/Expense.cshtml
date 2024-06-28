@@ -1,0 +1,149 @@
+﻿@using Syncfusion.EJ2
+@{
+    ViewBag.Title = "Expense";
+}
+<div class='exp-content-container'>
+    <div>
+        <h1 class="page-title"> All Transactions </h1>
+    </div>
+    <div>
+        <div class="col-md-12 margin-top col-lg-12">
+            <div class="expense-grid-container">
+                <div class="expense-head-padding">
+                    <div class="search-wrapper search-section">
+                        <div id="search">
+                            <input id="txt" type="search" placeholder="Search" class="search e-input">
+                            <span id="searchbtn" class="e-search-icon expense-search-icon e-icons"></span>
+                        </div>
+                        <div class="button-section search-section">
+                            @Html.EJS().Button("addexpense").Content("Add Transaction").Render()
+                            <button id="filterExpense" class="e-btn small e-info">Filter</button>
+                            <div id="add-btn" class='e-btn'>
+                                <span class='e-icons add-icon add-head-item'></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.EJS().Grid("grid").Width("100%").Height("100%").AllowSelection(true).RowSelected("onGridCheckBoxChange").RowDeselected("onGridCheckBoxChange").DataBound("onGridRender").EditSettings(editSettings =>
+                     {
+                         editSettings.AllowEditing(true);
+                     }).AllowPaging(true).PageSettings(pagesettings =>
+                     {
+                         pagesettings.PageSize(11);
+                     }).CellSave("onGridSave").AllowTextWrap(false).Toolbar(new List<string>() { "Edit", "Delete" }).Columns(columns =>
+                     {
+                         columns.Type("checkbox").Width("40").Add();
+                         columns.Field("Category").HeaderText("Category").Template("#template").Width("178").EditType("dropdownedit").ValidationRules(new { required = true }).ClipMode(Syncfusion.EJ2.Grids.ClipMode.EllipsisWithTooltip).Add();
+                         columns.Field("DateTime").HeaderText("Date").Format("yMd").Width("112").EditType("datepickeredit").ValidationRules(new { required = true }).HideAtMedia("(min-Width: 1050px)").Add();
+                         columns.Field("PaymentMode").HeaderText("Payment Mode").Width("140").EditType("dropdownedit").ValidationRules(new { required = true }).HideAtMedia("(min-Width: 600px)").Add();
+                         columns.Field("Description").HeaderText("Description").ClipMode(Syncfusion.EJ2.Grids.ClipMode.Ellipsis).ValidationRules(new { required = true }).HideAtMedia("(min-Width: 1050px)").Add();
+                         columns.Field("UniqueId").HeaderText("Unique Id").IsPrimaryKey(true).Visible(false).Add();
+                         columns.Field("Amount").HeaderText("Amount").EditType("numericedit").Width("120").Format("C0").Template("#amtTemplate").ValidationRules(new { required = true }).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Right).Add();
+                     }).ActionComplete("onGridActionComplete").ActionBegin("onGridEditBegin").Render()
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class='filter-container'>
+        <aside id="sidebar-indexexpense">
+            <div class="filter pane sidebar-wrapper-filter">
+                <div class="filter-head">
+                    <span class="e-icon filter-icon filter-head-item"></span>
+                    <span class="filter-txt filter-head-item">Filters</span>
+                </div>
+                <div class="expense-filter-container">
+                    <label class="label-font">Select a range</label>
+                    <div class='filter-item'>
+                        @Html.EJS().DateRangePicker("daterange").CssClass("DateTime").Format("MM/dd/yyyy").ShowClearButton(false).Change("dateRangeChanged").AllowEdit(false).EndDate(new System.DateTime(2017, 11, 30, 23, 59, 59)).StartDate(new System.DateTime(2017, 06, 1, 00, 01, 01)).Render()
+                    </div>
+                    <label class="label-font">Category</label>
+                    <div class="treeview filter-item">
+                        @Html.EJS().MultiSelect("expense-category").Placeholder("Select Categories").Mode(Syncfusion.EJ2.DropDowns.VisualMode.Box).HideSelectedItem(true).ClosePopupOnSelect(false).Select("categoryUpdated").Removed("categoryUpdated").Render()
+                    </div>
+                    <label class="label-font bottom-align">Cashflow</label>
+                    <div class="cashflow filter-item">
+                        @Html.EJS().CheckBox("income").Label("Income").Checked(true).CssClass("TransactionType").Change("onCheckBoxChange").Render()
+                        @Html.EJS().CheckBox("expenses").Label("Expense").Checked(true).CssClass("TransactionType").Change("onCheckBoxChange").Render()
+                    </div>
+                    <label class="label-font bottom-align">Payment Mode</label>
+                    <div class="paymentModes filter-item">
+                        @Html.EJS().CheckBox("cash").Label("Cash").Checked(true).CssClass("PaymentMode").Change("onCheckBoxChange").Render()
+                        @Html.EJS().CheckBox("debitcard").Label("Debit Card").Checked(true).CssClass("PaymentMode").Change("onCheckBoxChange").Render()
+                        <br />
+                        <br />
+                        @Html.EJS().CheckBox("creditcard").Label("Credit Card").Checked(true).CssClass("PaymentMode").Change("onCheckBoxChange").Render()
+                    </div>
+                    <div>
+                        <label class="label-font">Amount</label>
+                        <div class='amount-filter'>
+                            <div class='min-numeric amt-filter' style="width:100%">
+                                <label class="inlineAlign minLabel">Min</label>
+                                <label class="inlineAlign maxLabel" style="float:right;">Max</label>
+                                <div style="width:100%;height:50%;z-index:10000;">
+                                    @Html.EJS().Slider("range").Type(Syncfusion.EJ2.Inputs.SliderType.Range).CssClass("inlineAlign").ShowButtons(true).Tooltip(tooltip =>
+                                         {
+                                             tooltip.Placement(Syncfusion.EJ2.Inputs.TooltipPlacement.Before).IsVisible(true).ShowOn(Syncfusion.EJ2.Inputs.TooltipShowOn.Focus);
+                                         }).Change("amountChanged").Render()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script id="template" type="text/x-template">
+    <div class="normalRes">
+        <div class="category-icon ${Category}"></div>
+        <div class='category-text'>${Category}</div>
+    </div>
+    <div class="mediumRes">
+        <div>
+            <div class="category-icon ${Category}"></div>
+        </div>
+        <div>
+            <div> ${Category} </div>
+            <div class="description-section"> ${Description} </div>
+        </div>
+    </div>
+    <div class="smallRes">
+        <div class='sm-category sm-icon'>
+            <div class="category-icon ${Category}"></div>
+        </div>
+        <div class='sm-category category-content'>
+            <div> ${Category} </div>
+            <div class="description-section"> ${Description} </div>
+            <div> ${PaymentMode} </div>
+        </div>
+    </div>
+</script>
+
+<script id="amtTemplate" type="text/x-template">
+    <div class="normalRes">
+        <div class="lg-amount">
+            <div class='amt-payment ${TransactionType}'>
+                <span>$</span> <span>${Amount}</span>
+            </div>
+        </div>
+    </div>
+    <div class="mediumRes">
+        <div class="res-amount">
+            <div class='amt-payment ${TransactionType}'>
+                <span>$</span> <span>${Amount}</span>
+            </div>
+            <div>  ${getDate(data.DateTime)} </div>
+        </div>
+    </div>
+    <div class="smallRes">
+        <div class="res-amount">
+            <div class='amt-payment ${TransactionType}'>
+                <span>$</span> <span>${Amount}</span>
+            </div>
+            <div>  ${getDate(data.DateTime)} </div>
+        </div>
+    </div>
+</script>
+@Html.EJS().ScriptManager()
