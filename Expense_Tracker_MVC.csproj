@@ -49,10 +49,10 @@
       <HintPath>packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.EJ2">
-      <HintPath>packages\Syncfusion.EJ2.MVC5.26.1.35\lib\net45\Syncfusion.EJ2.dll</HintPath>
+      <HintPath>packages\Syncfusion.EJ2.MVC5.27.1.48\lib\net45\Syncfusion.EJ2.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Licensing">
-      <HintPath>packages\Syncfusion.Licensing.26.1.35\lib\net45\Syncfusion.Licensing.dll</HintPath>
+      <HintPath>packages\Syncfusion.Licensing.27.1.48\lib\net46\Syncfusion.Licensing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -130,6 +130,36 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ej2\bds-dark-lite.css" />
+    <Content Include="Content\ej2\bds-dark.css" />
+    <Content Include="Content\ej2\bds-lite.css" />
+    <Content Include="Content\ej2\bds.css" />
+    <Content Include="Content\ej2\bootstrap-dark-lite.css" />
+    <Content Include="Content\ej2\bootstrap-lite.css" />
+    <Content Include="Content\ej2\bootstrap4-lite.css" />
+    <Content Include="Content\ej2\bootstrap5-dark-lite.css" />
+    <Content Include="Content\ej2\bootstrap5-lite.css" />
+    <Content Include="Content\ej2\bootstrap5.3-dark-lite.css" />
+    <Content Include="Content\ej2\bootstrap5.3-dark.css" />
+    <Content Include="Content\ej2\bootstrap5.3-lite.css" />
+    <Content Include="Content\ej2\bootstrap5.3.css" />
+    <Content Include="Content\ej2\fabric-dark-lite.css" />
+    <Content Include="Content\ej2\fabric-lite.css" />
+    <Content Include="Content\ej2\fluent-dark-lite.css" />
+    <Content Include="Content\ej2\fluent-lite.css" />
+    <Content Include="Content\ej2\fluent2-dark-lite.css" />
+    <Content Include="Content\ej2\fluent2-dark.css" />
+    <Content Include="Content\ej2\fluent2-highcontrast-lite.css" />
+    <Content Include="Content\ej2\fluent2-highcontrast.css" />
+    <Content Include="Content\ej2\fluent2-lite.css" />
+    <Content Include="Content\ej2\fluent2.css" />
+    <Content Include="Content\ej2\highcontrast-lite.css" />
+    <Content Include="Content\ej2\material-dark-lite.css" />
+    <Content Include="Content\ej2\material-lite.css" />
+    <Content Include="Content\ej2\material3-dark-lite.css" />
+    <Content Include="Content\ej2\material3-lite.css" />
+    <Content Include="Content\ej2\tailwind-dark-lite.css" />
+    <Content Include="Content\ej2\tailwind-lite.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\ej2\bootstrap-dark.css" />
     <Content Include="Content\ej2\bootstrap.css" />
