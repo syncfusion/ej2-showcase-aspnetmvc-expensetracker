@@ -1,3 +1,5 @@
+[![.NET](https://github.com/syncfusion/ej2-showcase-aspnetmvc-expensetracker/actions/workflows/dotnet.yml/badge.svg)](https://github.com/syncfusion/ej2-showcase-aspnetmvc-expensetracker/actions/workflows/dotnet.yml)
+
 # ej2-showcase-aspnetmvc-expense-tracker
 
 The expense tracker demo application showcases several Essential JS 2 components together in a real-world application scenario to track and visualize your daily expenses. You can further explore the source code of this application and use it as a reference for integrating Essential JS 2 components into your applications.
