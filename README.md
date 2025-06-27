@@ -1,4 +1,4 @@
-[![.NET](https://github.com/SubathraKaliamoorthy/ej2-showcase-aspnetmvc-expensetracker/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SubathraKaliamoorthy/ej2-showcase-aspnetmvc-expensetracker/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/syncfusion/ej2-showcase-aspnetmvc-expensetracker/actions/workflows/dotnet.yml/badge.svg)](https://github.com/syncfusion/ej2-showcase-aspnetmvc-expensetracker/actions/workflows/dotnet.yml)
 
 # ej2-showcase-aspnetmvc-expense-tracker
 
